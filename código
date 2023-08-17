@@ -1,0 +1,95 @@
+
+def Cadastro_Eventos():
+
+    Evendto=[]
+    Evento.append(int(input("Digite o CNPJ da Empresa organizadora: "))) #0
+    print("\n------------- Sobre o evento -------------\n")
+    Evento.append(str(input("Digite o nome do evento a ser cadastrado: "))) #1
+    Evento.append(str(input("Digite o local do evento: "))) #2
+    Evento.append(str(input("Digite a data do evento: "))) #3
+    Evento.append(int(input("Digite a capacidade do evento: "))) #4
+    
+    porcentagem_meia=39
+    while porcentagem_meia<40:
+        porcentagem_meia=int(input("Qual porcentagem dos ingressos será vendida como meia entrada? \n Lembre-se, por lei, o mínimo é 40%! \n "))
+                
+        Evento.append(Evento[4]*(porcentagem_meia/100)) #5 
+        Evento.append(Evento[4]-Evento[5]) #6
+
+    print("\n------------- Sobre o pagamento -------------\n")
+    Evento.append(int(input("Insira o valor do ingresso: "))) #7
+    Evento.append(int(input("Digite a conta bancária: "))) #8
+    
+    return Evento
+
+#USUÁRIO
+def Usuario():
+
+    usuario=[]
+
+    print ("------------- Confira os eventos disponíveis em nossa plataforma! -------------")
+    with open('Eventos.csv') as csvfile:
+      for Eventos in csv.reader(csvfile):
+        print ('-------------------------------------------------------------------------------')
+        print(f'{Eventos[1]}\nLocal: {Eventos [2]}\nData: {Eventos [3]}\nValor do Ingresso: R${Eventos [7]}' )
+
+    usuario.append(input("\n-------------Escolha qual evento você gostaria de participar -------------\n")) #0
+    usuario.append(int(input("Digite a quantidade de ingressos: "))) #1
+    usuario.append(int(input("Quantos dos ingressos são meia entrada? Se nenhum, digite 0. "))) #2
+    
+    print ("\n------------- Faça o cadastro para comprar seu ingresso! -------------")
+    usuario.append(str(input('Digite seu nome completo: '))) #3
+    usuario.append(int(input('Digite o número do seu CPF: '))) #4
+    usuario.append(int(input("Digite sua idade: "))) #5
+    usuario.append(str(input('Digite seu e-mail: '))) #6
+
+    if usuario[5] < 18:
+        print('Cadastre as informações do seu acompanhante \n')
+        usuario.append(str(input("Digite seu nome completo: "))) #7
+        usuario.append(int(input('Digite o número do seu CPF: '))) #8
+
+    with open('Eventos.csv') as csvfile:
+      for Eventos in csv.reader(csvfile):
+        if usuario[0]==Eventos[1]:
+          valoringresso=Eventos[7]
+          
+    if usuario[2]!=0:
+      valor_total=(int(valoringresso)*(usuario[1]-usuario[2]))+(int(valoringresso)/2*usuario[2])
+    else:
+      valor_total=int(valoringresso)*usuario[1]
+
+    print ("\n------------- Forma de Pagamento -------------")
+    print (f'O valor total dos ingressos é:{valor_total} \n Escolha a forma de pagamento:')
+    forma_de_pagamento=int(input("\n 1-Cartão (Crédito ou Débito) \n 2-Boleto \n 3-Pix \n "))
+    if forma_de_pagamento==1:
+      numero=int(input("Insira o número do cartão: "))
+      numero=input("Insira a data de validade: ")
+      numero=int(input("Insira o código de segurança do cartão: "))
+      modo=int(input("Modalidade: 1- Crédito 2- Débito 2"))
+    elif forma_de_pagamento==2:
+      print('\n------------Você receberá o boleto no e-mail cadastrado dentro de 24h------------')
+    elif forma_de_pagamento==3:
+      print('\n------------Use a chave aleatória a seguir para o pagamento------------ \n   ------------238gf-hfonaf-fjabv23-fafafa ------------  \n------------Válida por 2h------------')
+      
+    print('\n------------------------Obrigada por comprar conosco!------------------------ \n------------Você receberá o ingresso no e-mail cadastrado assim que o pagamento confirmado!------------')
+
+
+
+import csv 
+
+print('           -------------------------- Seja Bem Vindo --------------------------\n')
+print('------------- Para fazer seu cadastro, basta preencher o formulário a seguir. -------------\n')
+
+Eventos=Cadastro_Eventos()
+with open('Eventos.csv', 'a') as csvfile:
+    csv.writer(csvfile, delimiter=',').writerow(Eventos)
+
+print('\n----------Obrigada por nos escolher!---------- \n')
+
+
+
+
+
+
+print('     -------------------------- Seja Bem Vindo! --------------------------\n')
+Usuario()
